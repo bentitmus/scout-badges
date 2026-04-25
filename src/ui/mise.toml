@@ -7,3 +7,6 @@ run = "pnpm run lint"
 
 [tasks.dev]
 run = "pnpm run dev"
+
+[tasks.test-spec]
+run = "pnpm run test:spec"
