@@ -1,4 +1,4 @@
-name: UI
+name: ui
 
 on:
   push:
@@ -7,27 +7,50 @@ on:
     branches: [main]
 
 jobs:
+  lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/ui
+    steps:
+      - name: 📂 Checkout
+        uses: actions/checkout@v5
+      - name: 🚚 Install `pnpm`
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - name: ⚙️ Setup Node
+        uses: actions/setup-node@v5
+        with:
+          node-version: lts/*
+          cache: "pnpm"
+          cache-dependency-path: "src/ui/pnpm-lock.yaml"
+      - name: 📦 Install dependencies
+        run: pnpm install
+      - name: 🕵️ Run lint
+        run: pnpm run lint
+
   test-spec:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: src/ui
     steps:
-      - name: Checkout
+      - name: 📂 Checkout
         uses: actions/checkout@v5
-      - name: Install `pnpm`
+      - name: 🚚 Install `pnpm`
         uses: pnpm/action-setup@v4
         with:
           version: 10
-      - name: Setup Node
+      - name: ⚙️ Setup Node
         uses: actions/setup-node@v5
         with:
           node-version: lts/*
           cache: "pnpm"
           cache-dependency-path: "src/ui/pnpm-lock.yaml"
-      - name: Install dependencies
+      - name: 📦 Install dependencies
         run: pnpm install
-      - name: Install Playwright Browsers
+      - name: 🎭 Install Playwright Browsers
         run: pnpm playwright install --with-deps
-      - name: Run specification tests
+      - name: 🥒 Run specification tests
         run: pnpm run test:spec
