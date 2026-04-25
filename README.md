@@ -1,2 +1,3 @@
-# scout-badges
-🏕️Scout badge calculator project for learning
+# Scout Badges
+
+This is a test project to learn about full stack web development and deployment.
