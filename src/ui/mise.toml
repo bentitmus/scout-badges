@@ -1,0 +1,9 @@
+[tools]
+node = "latest"
+pnpm = "latest"
+
+[tasks.lint]
+run = "pnpm run lint"
+
+[tasks.dev]
+run = "pnpm run dev"
