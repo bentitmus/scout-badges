@@ -3,8 +3,12 @@ name: ui
 on:
   push:
     branches: [main]
+    paths:
+      - src/ui/**
   pull_request:
     branches: [main]
+    paths:
+      - src/ui/**
 
 jobs:
   lint:
@@ -15,20 +19,12 @@ jobs:
     steps:
       - name: 📂 Checkout
         uses: actions/checkout@v5
-      - name: 🚚 Install `pnpm`
-        uses: pnpm/action-setup@v4
+      - name: 🚚 Install mise-en-place
+        uses: jdx/mise-action@v3
         with:
-          version: 10
-      - name: ⚙️ Setup Node
-        uses: actions/setup-node@v5
-        with:
-          node-version: lts/*
-          cache: "pnpm"
-          cache-dependency-path: "src/ui/pnpm-lock.yaml"
-      - name: 📦 Install dependencies
-        run: pnpm install
+          experimental: true
       - name: 🕵️ Run lint
-        run: pnpm run lint
+        run: mise run lint
 
   test-spec:
     runs-on: ubuntu-latest
@@ -38,19 +34,12 @@ jobs:
     steps:
       - name: 📂 Checkout
         uses: actions/checkout@v5
-      - name: 🚚 Install `pnpm`
-        uses: pnpm/action-setup@v4
+      - name: 🚚 Install mise-en-place
+        uses: jdx/mise-action@v3
         with:
-          version: 10
-      - name: ⚙️ Setup Node
-        uses: actions/setup-node@v5
-        with:
-          node-version: lts/*
-          cache: "pnpm"
-          cache-dependency-path: "src/ui/pnpm-lock.yaml"
-      - name: 📦 Install dependencies
-        run: pnpm install
+          experimental: true
       - name: 🎭 Install Playwright Browsers
-        run: pnpm playwright install --with-deps
+        run: mise exec -- pnpm playwright install --with-deps
       - name: 🥒 Run specification tests
-        run: pnpm run test:spec
+        run: mise run test-spec
+
