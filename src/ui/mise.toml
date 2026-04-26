@@ -10,3 +10,6 @@ run = "pnpm run dev"
 
 [tasks.test-spec]
 run = "pnpm run test:spec"
+
+[tasks.test]
+depends = ["test-*"]

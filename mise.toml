@@ -1,2 +1,15 @@
+experimental_monorepo_root = true
+
+[monorepo]
+config_roots = [
+  "src/ui",
+]
+
 [tools]
 act = "latest"
+
+[tasks.lint]
+depends = ["//...:lint"]
+
+[tasks.test]
+depends = ["//...:test"]
