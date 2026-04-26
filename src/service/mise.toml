@@ -1,0 +1,16 @@
+[tools]
+ruff = "latest"
+ty = "latest"
+uv = "latest"
+
+[settings]
+python.uv_venv_auto = "create|source"
+
+[tasks.lint]
+description = "Run lint for the service project"
+run = "ruff check && ty check"
+
+[tasks.dev]
+description = "Startup the service development server"
+run = "uv run main.py"
+
