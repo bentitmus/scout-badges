@@ -1,0 +1,26 @@
+name: service
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - src/service/**
+  pull_request:
+    branches: [main]
+    paths:
+      - src/service/**
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: src/service
+    steps:
+      - name: 📂 Checkout
+        uses: actions/checkout@v5
+      - name: 🚚 Install mise-en-place
+        uses: jdx/mise-action@v3
+      - name: 🕵️ Run lint
+        run: mise run lint
+
