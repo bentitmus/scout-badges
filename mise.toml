@@ -9,7 +9,9 @@ config_roots = [
 act = "latest"
 
 [tasks.lint]
+description = "Lint all files in all projects"
 depends = ["//...:lint"]
 
 [tasks.test]
+description = "Run all tests for all projects"
 depends = ["//...:test"]
