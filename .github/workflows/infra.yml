@@ -2,12 +2,6 @@ name: Deploy to AWS S3
  
 on:
   workflow_dispatch:
-    inputs:
-      environment:
-        description: "Deployment Environment"
-        required: true
-        type: environment
-        default: dev
  
 permissions:
   id-token: write
