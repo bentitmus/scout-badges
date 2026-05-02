@@ -1,7 +1,9 @@
 name: Deploy to AWS S3
  
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - database
  
 permissions:
   id-token: write
