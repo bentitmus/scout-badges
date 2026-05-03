@@ -31,10 +31,14 @@ jobs:
         with:
           terraform_wrapper: false
 
-      - name: Terraform Plan
+      - name: Terraform Init
         run: |
           cd infra
           terraform init -backend-config="./vars/dev/backend.hcl"
+      
+      - name: Terraform Plan
+        run: |
+          cd infra
           terraform plan -backend-config="./vars/dev/backend.hcl" -var-file="./vars/dev/vars.tf"
 
 
