@@ -34,7 +34,7 @@ jobs:
       - name: Terraform Plan
         run: |
           cd infra
-          terraform init
+          terraform init -backend-config=./vars/dev/backend.hcl -var-file=./vars/dev/vars.tf
           terraform plan -backend-config=./vars/dev/backend.hcl -var-file=./vars/dev/vars.tf
 
 
