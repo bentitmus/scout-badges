@@ -81,10 +81,8 @@ jobs:
         run: echo "Artifact ID from previous job is $OUTPUT1"
       
       - uses: actions/download-artifact@v8
-        env: 
-          OUTPUT1: ${{needs.plan.outputs.output1}}
         with:
-          artifact-ids: $OUTPUT1
+          artifact-ids: ${{needs.plan.outputs.output1}}
       
       - name: Read downloaded plan
         run: | 
