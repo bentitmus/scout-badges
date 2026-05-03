@@ -40,13 +40,13 @@ jobs:
       - name: Terraform Plan
         run: |
           cd infra
-          terraform plan -var-file="./vars/dev/vars.tf"
+          terraform plan -var-file="./vars/dev/vars.tf" -output="infra-plan.tfplan"
       
       - name: Publish artifact
         uses: actions/upload-artifact@v7
         with:
-          name: terraform-plan
-          path: 'terraform-plan.plan'
+          name: infra-plan
+          path: 'infra-plan.tfplan'
 
   apply:
     name: Terraform Apply Job
