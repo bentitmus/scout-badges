@@ -8,3 +8,13 @@ variable "environment" {
     error_message = "Environment must be dev or prod."
   }
 }
+
+variable "common_tags" {
+  type      = map
+
+}
+
+variable "specific_tags" {
+  type      = map
+  
+}
