@@ -27,12 +27,16 @@ jobs:
       - name: Verify AWS identity
         run: aws sts get-caller-identity
       
+      - uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_wrapper: false
+
       - name: Terraform Plan
         run: |
           cd infra
           terraform init
           terraform plan -backend-config=./vars/dev/backend.hcl -var-file=./vars/dev/vars.tf
-          
+
 
 
  
