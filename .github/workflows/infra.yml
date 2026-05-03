@@ -43,10 +43,12 @@ jobs:
           terraform plan -var-file="./vars/dev/vars.tf" -out="./infra-plan.tfplan"
       
       - name: Publish artifact
+        id: artifact-upload-step
         uses: actions/upload-artifact@v7
         with:
           name: infra-plan
           path: ./infra/infra-plan.tfplan
+          retention-days: 5
 
   apply:
     name: Terraform Apply Job
