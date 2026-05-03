@@ -13,7 +13,8 @@ jobs:
   plan:
     name: Terraform Plan Job
     runs-on: ubuntu-latest
- 
+    outputs:
+      output1: ${{ steps.artifact-upload-step.outputs.artifact-id }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -40,6 +41,53 @@ jobs:
         run: |
           cd infra
           terraform plan -var-file="./vars/dev/vars.tf"
+      
+      - name: Publish artifact
+        uses: actions/upload-artifact@v7
+        with:
+          name: 
+          path: './app/published-app'
+
+  apply:
+    name: Terraform Apply Job
+    runs-on: ubuntu-latest
+    needs: plan
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: eu-west-2
+ 
+      - name: Verify AWS identity
+        run: aws sts get-caller-identity
+      
+      - uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_wrapper: false
+
+      - name: Terraform Init
+        run: |
+          cd infra
+          terraform init -backend-config="./vars/dev/backend.hcl"
+      
+      - env:
+          OUTPUT1: ${{needs.plan.outputs.output1}}
+        run: echo "Artifact ID from previous job is $OUTPUT1"
+      
+      - uses: actions/download-artifact@v8
+        with:
+          artifact-ids: $OUTPUT1
+      
+      - name: Read downloaded plan
+        run: | 
+          ls -R
+
+
+      
 
 
 
