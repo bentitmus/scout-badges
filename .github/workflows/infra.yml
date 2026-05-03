@@ -45,8 +45,8 @@ jobs:
       - name: Publish artifact
         uses: actions/upload-artifact@v7
         with:
-          name: 
-          path: './app/published-app'
+          name: terraform-plan
+          path: 'terraform-plan.plan'
 
   apply:
     name: Terraform Apply Job
