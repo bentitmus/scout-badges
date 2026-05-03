@@ -40,7 +40,7 @@ jobs:
       - name: Terraform Plan
         run: |
           cd infra
-          terraform plan -var-file="./vars/dev/vars.tf" -out="./infra-plan.tfplan"
+          terraform plan -var-file="./vars/dev/vars.tfvars" -out="./infra-plan.tfplan"
       
       - name: Publish artifact
         id: artifact-upload-step
@@ -83,10 +83,17 @@ jobs:
       - uses: actions/download-artifact@v8
         with:
           artifact-ids: ${{needs.plan.outputs.output1}}
+          path: infra
       
       - name: Read downloaded plan
         run: | 
-          ls -R
+          cd infra
+          cat infra-plan.tfplan
+      
+      - name: Terraform Apply
+        run: |
+          cd infra
+          terraform apply -var-file="./vars/dev/vars.tfvars" infra-plan.tfplan
 
 
       
