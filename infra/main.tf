@@ -8,3 +8,4 @@ module "test_s3_bucket" {
 
   tags = merge(var.common_tags, var.specific_tags)
 }
+
