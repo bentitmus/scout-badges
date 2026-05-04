@@ -10,7 +10,7 @@ Initially there will be no user authentication.
 
 ## Environments
 Initially a dev environment pilot will be deployed.
-This differs from a prod deployment because the database will be publicly accessible (to enable developers to integrate it with their tools).  When building prod, we may consider building a bastion host for troubleshooting of the database.
+This differs from a prod deployment because the database will be publicly accessible (to enable developers to integrate it with their tools).  A bastion host will provide access to the kubernetes cluster and database.  The EC2 ami would need to be built/patched on a public subnet (with internet access for tool installation).
 
 ## Database
 Initially postgres RDS on AWS will be used.  Later on we may consider switching to postgres deployed on the kubernetes cluster.
