@@ -33,6 +33,6 @@ This describes a setup of cicd which would enable only private EKS endpoint: htt
 We chose not to do this because this is likely to require a longer-lived bastion (instead of just being spun up during troubleshooting) - which can present security risks.
 
 Terraform template: https://github.com/hashicorp-education/learn-terraform-provision-eks-cluster
-
+https://platformwale.blog/2023/07/15/create-amazon-eks-cluster-within-its-vpc-using-terraform/
 
 
