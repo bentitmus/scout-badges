@@ -26,9 +26,13 @@ For application code - the CI/CD will check if terraform plan is up to date in d
 ## EKS Cluster
 EKS has several features that are managed by AWS - which will simplify deployment and help with learning.  A good description of different options for configuration of EKS is here: https://aws.amazon.com/blogs/containers/de-mystifying-cluster-networking-for-amazon-eks-worker-nodes/
 
+https://docs.aws.amazon.com/eks/latest/best-practices/subnets.html
+https://aws.amazon.com/blogs/containers/expose-amazon-eks-pods-through-cross-account-load-balancer/
+
 This describes a setup of cicd which would enable only private EKS endpoint: https://medium.com/@karimfadl/ci-cd-deployment-of-app-to-eks-using-github-actions-and-bastion-runner-f8b967a61646. 
 We chose not to do this because this is likely to require a longer-lived bastion (instead of just being spun up during troubleshooting) - which can present security risks.
 
+Terraform template: https://github.com/hashicorp-education/learn-terraform-provision-eks-cluster
 
 
 
