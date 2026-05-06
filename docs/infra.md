@@ -30,7 +30,9 @@ We chose not to do this because this is likely to require a longer-lived bastion
 Terraform template: https://github.com/hashicorp-education/learn-terraform-provision-eks-cluster
 https://platformwale.blog/2023/07/15/create-amazon-eks-cluster-within-its-vpc-using-terraform/
 
-As a starting point will try aws-managed EC2s, using both public and private EKS API endpoints.  Using the aws eks add-on feature of Load Balancer Controller would simplify deployment: https://www.eksworkshop.com/docs/fundamentals/exposing/ingress/adding-ingress
+As a starting point will try aws-managed EC2s, using both public and private EKS API endpoints.  
+
+Using the aws eks add-on feature of Load Balancer Controller would simplify deployment: https://www.eksworkshop.com/docs/fundamentals/exposing/ingress/adding-ingress.  But it has the drawback of being aws-specific.  Learning how to create the ALB in terraform and linking it to Ingress in EKS, would be beneficial.  
 
 ## CI/CD
 Github actions with github-hosted runners.  This is considered for practicality.  It is interesting - because the github-hosting of runners requires either a public EKS endpoint or working through a bastion host which is publicly accessible to the internet - for interacting with the EKS control plane.  
