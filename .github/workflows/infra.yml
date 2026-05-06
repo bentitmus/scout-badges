@@ -1,0 +1,99 @@
+name: Deploy to AWS S3
+ 
+on:
+  workflow-dispatch:
+    inputs:
+      environment:
+        description: "Deployment Environment"
+        required: true
+        type: environment
+        default: dev
+ 
+permissions:
+  id-token: write
+  contents: read
+ 
+jobs:
+  plan:
+    name: Terraform Plan Job
+    runs-on: ubuntu-latest
+    outputs:
+      artifact-id: ${{ steps.artifact-upload-step.outputs.artifact-id }}
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+ 
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: eu-west-2
+ 
+      - name: Verify AWS identity
+        run: aws sts get-caller-identity
+      
+      - uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_wrapper: false
+
+      - name: Terraform Init
+        run: |
+          cd infra
+          terraform init -backend-config="./vars/${{ inputs.environment }}/backend.hcl"
+      
+      - name: Terraform Plan
+        run: |
+          cd infra
+          terraform plan -var-file="./vars/${{ inputs.environment }}/vars.tfvars" -var-file="./vars/common.tfvars" -out="./infra-plan.tfplan"
+      
+      - name: Publish artifact
+        id: artifact-upload-step
+        uses: actions/upload-artifact@v7
+        with:
+          name: infra-plan
+          path: ./infra/infra-plan.tfplan
+          retention-days: 5
+
+  apply:
+    name: Terraform Apply Job
+    runs-on: ubuntu-latest
+    needs: plan
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+      
+      - name: Configure AWS credentials via OIDC
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ vars.AWS_ROLE_ARN }}
+          aws-region: eu-west-2
+ 
+      - name: Verify AWS identity
+        run: aws sts get-caller-identity
+      
+      - uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_wrapper: false
+
+      - name: Terraform Init
+        run: |
+          cd infra
+          terraform init -backend-config="./vars/${{ inputs.environment }}/backend.hcl"
+      
+      - name: Artifact id
+        run: echo "Artifact ID from previous job is ${{ needs.plan.outputs.artifact-id }}"
+      
+      - uses: actions/download-artifact@v8
+        with:
+          artifact-ids: ${{ needs.plan.outputs.artifact-id }}
+          path: infra
+      
+      - name: Terraform Apply
+        run: |
+          cd infra
+          terraform apply -var-file="./vars/${{ inputs.environment }}/vars.tfvars" -var-file="./vars/common.tfvars" infra-plan.tfplan
+
+
+    
