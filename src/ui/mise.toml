@@ -1,6 +1,6 @@
 [tools]
 node = "latest"
-pnpm = "latest"
+pnpm = { version = "latest", postinstall = "pnpm dlx playwright install --with-deps" }
 
 [deps.pnpm]
 auto = true

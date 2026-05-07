@@ -29,9 +29,6 @@ jobs:
 
   test-spec:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: src/ui
     steps:
       - name: 📂 Checkout
         uses: actions/checkout@v5
@@ -39,8 +36,6 @@ jobs:
         uses: jdx/mise-action@v3
         with:
           experimental: true
-      - name: 🎭 Install Playwright Browsers
-        run: mise exec -- pnpm playwright install --with-deps
       - name: 🥒 Run specification tests
-        run: mise run test-spec
+        run: mise run //src/ui:test-spec
 
