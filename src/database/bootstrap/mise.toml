@@ -1,0 +1,2 @@
+[tasks.lint]
+run = "pnpm dlx squawk-cli deploy/* revert/* verify/*"

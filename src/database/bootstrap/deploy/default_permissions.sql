@@ -2,6 +2,8 @@
 
 BEGIN;
 
+SET lock_timeout = '1s';
+SET statement_timeout = '5s';
 REVOKE ALL ON SCHEMA public FROM PUBLIC;
 -- By default `PUBLIC` has `EXECUTE` as the only permission, but we want to
 -- explicitly grant this to each role

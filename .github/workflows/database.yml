@@ -1,0 +1,25 @@
+name: database
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - src/database/**
+  pull_request:
+    branches: [main]
+    paths:
+      - src/database/**
+
+jobs:
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📂 Checkout
+        uses: actions/checkout@v5
+      - name: 🚚 Install mise-en-place
+        uses: jdx/mise-action@v3
+        with:
+          experimental: true
+      - name: 🕵️ Run lint
+        run: mise run //src/database/bootstrap:lint
+
