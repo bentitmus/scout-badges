@@ -2,11 +2,9 @@ experimental_monorepo_root = true
 
 [monorepo]
 config_roots = [
+  ".github",
   "src/ui",
 ]
-
-[tools]
-act = "latest"
 
 [tasks.lint]
 description = "Lint all files in all projects"

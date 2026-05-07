@@ -1,0 +1,7 @@
+[tools]
+act = "latest"
+actionlint = "latest"
+
+[tasks.lint]
+description = "Lint GitHub workflows"
+run = "actionlint"
