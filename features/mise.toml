@@ -1,0 +1,5 @@
+[tools]
+pnpm = "latest"
+
+[tasks.lint]
+run = "pnpm dlx gherkin-lint"

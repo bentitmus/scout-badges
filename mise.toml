@@ -3,6 +3,7 @@ experimental_monorepo_root = true
 [monorepo]
 config_roots = [
   ".github",
+  "features",
   "src/ui",
 ]
 
