@@ -4,23 +4,38 @@ on:
   push:
     branches: [main]
     paths:
+      - features/service/**
       - src/service/**
   pull_request:
     branches: [main]
     paths:
+      - features/service/**
       - src/service/**
 
 jobs:
   lint:
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: src/service
     steps:
       - name: 📂 Checkout
         uses: actions/checkout@v5
       - name: 🚚 Install mise-en-place
         uses: jdx/mise-action@v3
+        with:
+          experimental: true
       - name: 🕵️ Run lint
-        run: mise run lint
+        run: |
+          mise run //features:lint
+          mise run //src/service:lint
+
+  test-spec:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📂 Checkout
+        uses: actions/checkout@v5
+      - name: 🚚 Install mise-en-place
+        uses: jdx/mise-action@v3
+        with:
+          experimental: true
+      - name: 🥒 Run specification tests
+        run: mise run //src/service:test-spec
 

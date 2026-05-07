@@ -6,6 +6,9 @@ uv = "latest"
 [settings]
 python.uv_venv_auto = "create|source"
 
+[deps.uv]
+auto = true
+
 [tasks.lint]
 description = "Run lint for the service project"
 run = "ruff check && ty check"
@@ -14,3 +17,10 @@ run = "ruff check && ty check"
 description = "Startup the service development server"
 run = "uv run main.py"
 
+[tasks.test-spec]
+description = "Run the specification tests for the service"
+run = "uv run behave ../../features/service"
+
+[tasks.test]
+description = "Run all tests for the service"
+depends = ["test-*"]
