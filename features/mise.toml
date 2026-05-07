@@ -2,4 +2,5 @@
 pnpm = "latest"
 
 [tasks.lint]
+description = "Lint all the Gherkin feature files"
 run = "pnpm dlx gherkin-lint"
