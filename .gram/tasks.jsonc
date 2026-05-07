@@ -1,0 +1,10 @@
+[
+  {
+    "label": "Lint",
+    "command": "mise run lint",
+  },
+  {
+    "label": "Tests",
+    "command": "mise run test",
+  },
+]
