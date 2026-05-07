@@ -1,0 +1,7 @@
+%syntax-version=1.0.0
+%project=scout-badges-bootstrap
+%uri=https://github.com/bentitmus/scout-badges
+
+admin_user 2026-05-07T18:13:40Z Benjamin Titmus <ben.titmus@cantab.net> # Create admin user for the scout_badges database schema
+default_permissions 2026-05-07T18:17:20Z Benjamin Titmus <ben.titmus@cantab.net> # Set-up default permissions
+app_schema 2026-05-07T18:18:33Z Benjamin Titmus <ben.titmus@cantab.net> # Create application schema

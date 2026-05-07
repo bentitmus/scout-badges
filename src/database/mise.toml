@@ -1,0 +1,5 @@
+[tools]
+perl = { version = "latest", postinstall = "cpanm -n App::Sqitch DBD::Pg" }
+
+[env]
+_.source = "./sqitch-user.sh"
