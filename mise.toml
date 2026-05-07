@@ -9,6 +9,9 @@ config_roots = [
   "src/ui",
 ]
 
+[tools]
+changie = "latest"
+
 [tasks.lint]
 description = "Lint all files in all projects"
 depends = ["//...:lint"]
