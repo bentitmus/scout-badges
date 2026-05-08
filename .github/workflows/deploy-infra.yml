@@ -22,30 +22,23 @@ jobs:
     steps:
       - name: 📂 Checkout
         uses: actions/checkout@v6
-      - name: Configure AWS credentials via OIDC
+      - name: 🔑 Authenticate with AWS
         uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: ${{ vars.AWS_ROLE_ARN }}
           aws-region: eu-west-2
-      - name: Verify AWS identity
-        run: aws sts get-caller-identity
-      - uses: hashicorp/setup-terraform@v4
+      - name: 🚚 Install mise-en-place
+        uses: jdx/mise-action@v4
         with:
-          terraform_wrapper: false
-      - name: Terraform Init
-        run: |
-          cd infra
-          terraform init -backend-config="./vars/${{ inputs.environment }}/backend.hcl"
-      - name: Terraform Plan
-        run: |
-          cd infra
-          terraform plan -var-file="./vars/${{ inputs.environment }}/vars.tfvars" -var-file="./vars/common.tfvars" -out="./infra-plan.tfplan"
-      - name: Publish artifact
+          experimental: true
+      - name: 🎨 Plan changes
+        run: mise run //infra:plan ${{ inputs.environment }} --output infra-plan.tfplan
+      - name: 📥 Save plan
         id: artifact-upload-step
         uses: actions/upload-artifact@v7
         with:
           name: infra-plan
-          path: ./infra/infra-plan.tfplan
+          path: ./infra-plan.tfplan
           retention-days: 5
 
   apply:
@@ -56,28 +49,19 @@ jobs:
     steps:
       - name: 📂 Checkout
         uses: actions/checkout@v6
-      - name: Configure AWS credentials via OIDC
+      - name: 📤 Retrieve plan
+        uses: actions/download-artifact@v8
+        with:
+          artifact-ids: ${{ needs.plan.outputs.artifact-id }}
+      - name: 🔑 Authenticate with AWS
         uses: aws-actions/configure-aws-credentials@v6
         with:
           role-to-assume: ${{ vars.AWS_ROLE_ARN }}
           aws-region: eu-west-2
-      - name: Verify AWS identity
-        run: aws sts get-caller-identity
-      - uses: hashicorp/setup-terraform@v4
+      - name: 🚚 Install mise-en-place
+        uses: jdx/mise-action@v4
         with:
-          terraform_wrapper: false
-      - name: Terraform Init
-        run: |
-          cd infra
-          terraform init -backend-config="./vars/${{ inputs.environment }}/backend.hcl"
-      - name: Artifact id
-        run: echo "Artifact ID from previous job is ${{ needs.plan.outputs.artifact-id }}"
-      - uses: actions/download-artifact@v8
-        with:
-          artifact-ids: ${{ needs.plan.outputs.artifact-id }}
-          path: infra
-      - name: Terraform Apply
-        run: |
-          cd infra
-          terraform apply -var-file="./vars/${{ inputs.environment }}/vars.tfvars" -var-file="./vars/common.tfvars" infra-plan.tfplan
+          experimental: true
+      - name: 🖼️ Apply changes
+        run: mise run //infra:apply ${{ inputs.environment }} --input infra-plan.tfplan
 
