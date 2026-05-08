@@ -1,4 +1,4 @@
-name: Deploy to AWS S3
+name: Deploy Infra to AWS
  
 on:
   workflow_dispatch:
@@ -19,7 +19,6 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       artifact-id: ${{ steps.artifact-upload-step.outputs.artifact-id }}
-    environment: ${{ inputs.environment }}
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -46,7 +45,7 @@ jobs:
         run: |
           cd infra
           terraform plan -var-file="./vars/${{ inputs.environment }}/vars.tfvars" -var-file="./vars/common.tfvars" -out="./infra-plan.tfplan"
-      
+
       - name: Publish artifact
         id: artifact-upload-step
         uses: actions/upload-artifact@v7
