@@ -10,29 +10,29 @@ variable "environment" {
 }
 
 variable "common_tags" {
-  type      = map
+  type = map(any)
 
 }
 
 variable "specific_tags" {
-  type      = map
-  
+  type = map(any)
+
 }
 
 variable "public_subnet1" {
-  type      = string
+  type = string
 }
 
 variable "public_subnet2" {
-  type      = string
+  type = string
 }
 
 variable "private_subnet1" {
-  type      = string
-  default   = ""
+  type    = string
+  default = ""
 }
 
 variable "private_subnet2" {
-  type      = string
-  default   = ""
+  type    = string
+  default = ""
 }

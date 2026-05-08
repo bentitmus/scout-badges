@@ -1,0 +1,10 @@
+[tools]
+terraform = "latest"
+tflint = "latest"
+
+[tasks.lint]
+description = "Lint Terraform configuration"
+run = """
+  tflint
+  terraform fmt -check
+"""

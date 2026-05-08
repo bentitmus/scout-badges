@@ -4,6 +4,7 @@ experimental_monorepo_root = true
 config_roots = [
   ".github",
   "features",
+  "infra",
   "src/database/bootstrap",
   "src/service",
   "src/ui",
