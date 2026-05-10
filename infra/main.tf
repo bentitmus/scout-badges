@@ -80,6 +80,10 @@ module "db" {
 
   allocated_storage = 10
 
+  kms_key_id = aws_kms_key.scout_badges.arn
+  master_user_secret_kms_key_id = aws_kms_key.scout_badges.arn
+  cloudwatch_log_group_kms_key_id = aws_kms_key.scout_badges.arn
+
   # NOTE: Do NOT use 'user' as the value for 'username' as it throws:
   # "Error creating DB Instance: InvalidParameterValue: MasterUsername
   # user cannot be used as it is a reserved word used by the engine"
