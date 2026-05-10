@@ -138,18 +138,18 @@ module "db" {
   }
 }
 
-module "kms_customer_managed" {
-  source = "terraform-aws-modules/kms/aws"
+# KMS key for RDS encryption
+resource "aws_kms_key" "rds" {
+  description             = "KMS key for RDS database encryption"
+  deletion_window_in_days = 30
+  enable_key_rotation     = true
 
-  description = "Customer Managed KMS key"
-  key_usage   = "ENCRYPT_DECRYPT"
+  tags = {
+    Service = "rds"
+  }
+}
 
-  # Policy
-  key_administrators                 = ["arn:aws:iam::${local.account_id}:user/nicUser"]
-  key_service_roles_for_autoscaling  = ["arn:aws:iam::${local.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"]
-
-  # Aliases
-  aliases = ["scout_badges"]
-
-  tags = merge(var.common_tags, var.specific_tags)
+resource "aws_kms_alias" "rds" {
+  name          = "alias/scout-badges-rds"
+  target_key_id = aws_kms_key.rds.key_id
 }
