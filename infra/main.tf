@@ -1,5 +1,6 @@
 locals {
   vpc_open = var.environment == "dev" ? true : false
+  account_id = data.aws_caller_identity.current.account_id
 }
 
 module "bastion_bucket" {
@@ -108,8 +109,8 @@ module "db" {
   create_cloudwatch_log_group     = true
 
   backup_retention_period = 1
-  skip_final_snapshot     = true
-  deletion_protection     = false
+  skip_final_snapshot     = local.vpc_open
+  deletion_protection     = !local.vpc_open
 
   performance_insights_enabled = false
   create_monitoring_role       = false
@@ -135,4 +136,20 @@ module "db" {
   cloudwatch_log_group_tags = {
     "Sensitive" = "high"
   }
+}
+
+module "kms_customer_managed" {
+  source = "terraform-aws-modules/kms/aws"
+
+  description = "Customer Managed KMS key"
+  key_usage   = "ENCRYPT_DECRYPT"
+
+  # Policy
+  key_administrators                 = ["arn:aws:iam::${local.account_id}:user/nicUser"]
+  key_service_roles_for_autoscaling  = ["arn:aws:iam::${local.account_id}:role/aws-service-role/autoscaling.amazonaws.com/AWSServiceRoleForAutoScaling"]
+
+  # Aliases
+  aliases = ["scout_badges"]
+
+  tags = merge(var.common_tags, var.specific_tags)
 }
