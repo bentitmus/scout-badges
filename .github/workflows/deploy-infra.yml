@@ -38,7 +38,7 @@ jobs:
         uses: actions/upload-artifact@v7
         with:
           name: infra-plan
-          path: ./infra-plan.tfplan
+          path: ./infra/infra-plan.tfplan
           retention-days: 5
 
   apply:
@@ -53,6 +53,7 @@ jobs:
         uses: actions/download-artifact@v8
         with:
           artifact-ids: ${{ needs.plan.outputs.artifact-id }}
+          path: infra
       - name: 🔑 Authenticate with AWS
         uses: aws-actions/configure-aws-credentials@v6
         with:
