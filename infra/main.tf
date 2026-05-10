@@ -144,9 +144,7 @@ resource "aws_kms_key" "rds" {
   deletion_window_in_days = 30
   enable_key_rotation     = true
 
-  tags = {
-    Service = "rds"
-  }
+  tags = merge(var.common_tags, var.specific_tags)
 }
 
 resource "aws_kms_alias" "rds" {
