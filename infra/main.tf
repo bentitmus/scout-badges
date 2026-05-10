@@ -139,8 +139,8 @@ module "db" {
 }
 
 # KMS key for RDS encryption
-resource "aws_kms_key" "rds" {
-  description             = "KMS key for RDS database encryption"
+resource "aws_kms_key" "scout_badges" {
+  description             = "KMS key for scout_badges"
   deletion_window_in_days = 30
   enable_key_rotation     = true
 
@@ -148,6 +148,6 @@ resource "aws_kms_key" "rds" {
 }
 
 resource "aws_kms_alias" "rds" {
-  name          = "alias/scout-badges-rds"
+  name          = "alias/scout-badges"
   target_key_id = aws_kms_key.rds.key_id
 }
