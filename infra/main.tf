@@ -156,7 +156,7 @@ resource "aws_kms_alias" "scout_badges" {
   target_key_id = aws_kms_key.scout_badges.key_id
 }
 
-resource "aws_kms_key_policy" "example" {
+resource "aws_kms_key_policy" "scout_badges" {
   key_id = aws_kms_key.scout_badges.key_id
   policy = jsonencode({
     Id = "scout_badges"
