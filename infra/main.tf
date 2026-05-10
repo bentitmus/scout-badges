@@ -155,3 +155,40 @@ resource "aws_kms_alias" "scout_badges" {
   name          = "alias/scout-badges"
   target_key_id = aws_kms_key.scout_badges.key_id
 }
+
+resource "aws_kms_key_policy" "example" {
+  key_id = aws_kms_key.scout_badges.key_id
+  policy = jsonencode({
+    Id = "scout_badges"
+    Statement = [
+      {
+        Sid    = "EnableRootAccountAccess"
+        Effect = "Allow"
+        Principal = {
+          AWS = "arn:aws:iam::${local.account_id}:root"
+        }
+        Action   = "kms:*"
+        Resource = "*"
+      },
+      {
+        Sid    = "AllowKeyUsage"
+        Effect = "Allow"
+        Principal = {
+          AWS = [
+            "arn:aws:iam::${local.account_id}:role/github_actions_oidc"
+            #"arn:aws:iam::${local.acccount_id}:role/lambda-exec"
+          ]
+        }
+        Action = [
+          "kms:Encrypt",
+          "kms:Decrypt",
+          "kms:ReEncrypt*",
+          "kms:GenerateDataKey*",
+          "kms:DescribeKey"
+        ]
+        Resource = "*"
+      }
+    ]
+    Version = "2012-10-17"
+  })
+}
