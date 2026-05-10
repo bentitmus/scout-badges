@@ -15,5 +15,5 @@ output "postgres_instance_endpoint" {
 
 output "postgres_secrets_manager_entry" {
   description = "Secrets Manager for postgres - not printed for prod"
-  value       = local.vpc_open ? module.db.db_instance.master_user_secret.secret_arn : ""
+  value       = local.vpc_open ? data..master_user_secret.secret_arn : ""
 }
