@@ -170,9 +170,10 @@ resource "aws_kms_key_policy" "scout_badges" {
         Effect = "Allow"
         Principal = {
           AWS = [
-            "arn:aws:iam::${local.account_id}:role/github_actions_oidc",
-            "arn:aws:iam::${local.account_id}:root",
-            "arn:aws:iam::${local.account_id}:*"
+            #"arn:aws:iam::${local.account_id}:role/github_actions_oidc",
+            #"arn:aws:iam::${local.account_id}:root",
+            #"arn:aws:iam::${local.account_id}:*"
+            "*"
           ]
         }
         Action   = "kms:*"
