@@ -140,6 +140,10 @@ module "db" {
   cloudwatch_log_group_tags = {
     "Sensitive" = "high"
   }
+
+  depends_on = [
+    aws_kms_key.scout_badges, aws_kms_key_policy.scout_badges, aws_kms_alias.scout_badges
+  ]
 }
 
 # KMS key for RDS encryption
