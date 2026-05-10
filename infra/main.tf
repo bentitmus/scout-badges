@@ -147,7 +147,7 @@ resource "aws_kms_key" "scout_badges" {
   tags = merge(var.common_tags, var.specific_tags)
 }
 
-resource "aws_kms_alias" "rds" {
+resource "aws_kms_alias" "scout_badges" {
   name          = "alias/scout-badges"
-  target_key_id = aws_kms_key.rds.key_id
+  target_key_id = aws_kms_key.scout_badges.key_id
 }
