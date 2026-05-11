@@ -1,0 +1,2 @@
+[secrets]
+SQITCH_TARGET= { provider = "plain", value = "db:pg://localhost:5432/postgres" }

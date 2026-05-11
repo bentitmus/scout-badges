@@ -13,6 +13,9 @@ permissions:
   id-token: write
   contents: read
 
+env:
+  MISE_ENV: 'dev'
+
 jobs:
   plan:
     name: Terraform plan

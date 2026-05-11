@@ -3,4 +3,17 @@ perl = { version = "latest", postinstall = "cpanm -n App::Sqitch DBD::Pg" }
 pnpm = "latest"
 
 [env]
-_.source = "./sqitch-user.sh"
+_.source = "./scripts/sqitch-user.sh"
+
+[tasks.init-user]
+hide = true
+run = "./scripts/init-user-fnox.sh"
+
+[tasks.init]
+description = "Initialise database for testing"
+depends = ["init-user"]
+run = "./scripts/init-pg.sh"
+
+[tasks.lint]
+description = "Lint SQL migration scripts"
+run = "pnpm dlx squawk-cli deploy/* revert/* verify/*"

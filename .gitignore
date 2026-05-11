@@ -4,3 +4,5 @@
 *.log*
 .terraform
 .terraform.lock.hcl
+mise.local.toml
+fnox.local.toml

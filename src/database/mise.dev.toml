@@ -1,0 +1,3 @@
+[tasks.init-user]
+hide = true
+depends = ["//infra:init"]

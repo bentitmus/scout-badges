@@ -5,13 +5,19 @@ config_roots = [
   ".github",
   "features",
   "infra",
-  "src/database/bootstrap",
+  "src/database",
   "src/service",
   "src/ui",
 ]
 
 [tools]
+age = "latest"
 changie = "latest"
+fnox = "latest"
+
+[tasks.init]
+description = "Initialise environment for running"
+depends = ["//...:init"]
 
 [tasks.lint]
 description = "Lint all files in all projects"
