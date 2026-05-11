@@ -170,8 +170,8 @@ resource "aws_kms_key_policy" "scout_badges" {
         Effect = "Allow"
         Principal = {
           AWS = [
-            #"arn:aws:iam::${local.account_id}:role/github_actions_oidc",
-            #"arn:aws:iam::${local.account_id}:root",
+            "arn:aws:iam::${local.account_id}:role/github_actions_oidc",
+            "arn:aws:iam::${local.account_id}:root"
             #"arn:aws:iam::${local.account_id}:*"
             "*"
           ]
@@ -184,7 +184,7 @@ resource "aws_kms_key_policy" "scout_badges" {
         Effect = "Allow"
         Principal = {
           AWS = [
-            #"arn:aws:logs:eu-west-2:${local.account_id}:log-group:/aws/rds/*"
+            "arn:aws:logs:eu-west-2:${local.account_id}:log-group:/aws/rds/*"
             #"arn:aws:iam::${local.acccount_id}:role/lambda-exec"
             "*"
           ]
