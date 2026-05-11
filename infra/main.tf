@@ -77,7 +77,7 @@ module "db" {
   family                   = "postgres17" # DB parameter group
   major_engine_version     = "17"         # DB option group
   instance_class           = "db.t3.micro"
-
+  publicly_accessible      = true
   allocated_storage = 10
 
   kms_key_id = aws_kms_key.scout_badges.arn
