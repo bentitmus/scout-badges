@@ -20,7 +20,7 @@ run = '''
 
 [tasks.lint]
 description = "Lint SQL migration scripts"
-run = "pnpm dlx squawk-cli deploy/* revert/* verify/*"
+run = "pnpm dlx squawk-cli scripts/initdb.sql deploy/* revert/* verify/*"
 
 [tasks.pg]
 description = "Start Postgres service"
