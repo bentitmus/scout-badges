@@ -1,4 +1,8 @@
 [secrets]
+PGUSER= { provider = "plain", value = "dbadmin" }
 PGHOST= { provider = "plain", value = "localhost" }
 PGPORT= { provider = "plain", value = "5432" }
 PGDATABASE= { provider = "plain", value = "postgres" }
+
+
+# ADD DESCRIPTION AND ALSO CREATE fnox.dev.toml FROM TERRAFORM
