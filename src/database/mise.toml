@@ -15,10 +15,10 @@ outputs = ["pg"]
 run = '''
   fnox exec -- ./scripts/init-machine-pg.sh
   ./scripts/init-user-fnox.sh
-  pg_ctl start -D pg
+  pg_ctl start -D pg > /dev/null
   fnox exec -- ./scripts/init-pg.sh
   fnox exec -- ./scripts/init-pg-debug.sh
-  pg_ctl stop -D pg
+  pg_ctl stop -D pg > /dev/null
 '''
 
 [tasks.lint]
@@ -29,4 +29,5 @@ run = "pnpm dlx squawk-cli scripts/initdb.sql deploy/* revert/* verify/*"
 description = "Start Postgres service"
 depends = ["//src/database:init"]
 hide = true
-run = "postgres -D pg"
+# `pitchfork` supplies the $PORT value
+run = "postgres -D pg -p $PORT"
