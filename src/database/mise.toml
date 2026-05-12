@@ -6,14 +6,16 @@ postgres = { version = "latest", postinstall = "./scripts/install-pgtap.sh" }
 [env]
 _.source = "./scripts/sqitch.sh"
 
-[tasks.init-user]
-hide = true
-run = "./scripts/init-user-fnox.sh"
-
 [tasks.init]
 description = "Initialise database for testing"
-depends = ["//src/database:init-user"]
-run = "fnox exec -- ./scripts/init-pg.sh"
+outputs = ["pg"]
+run = '''
+  fnox exec -- ./scripts/init-machine-pg.sh
+  ./scripts/init-user-fnox.sh
+  pg_ctl start -D pg
+  fnox exec -- ./scripts/init-pg.sh
+  pg_ctl stop -D pg
+'''
 
 [tasks.lint]
 description = "Lint SQL migration scripts"

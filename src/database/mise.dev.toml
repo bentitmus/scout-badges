@@ -1,3 +1,6 @@
-[tasks.init-user]
-hide = true
+[tasks.init]
+description = "Initialise database for testing"
 depends = ["//infra:init"]
+run = '''
+  fnox exec -- ./scripts/init-pg.sh
+'''
