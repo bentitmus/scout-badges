@@ -24,12 +24,18 @@ module "ec2_instance" {
   instance_type               = "t3.micro"
   subnet_id                   = local.vpc_open ? module.vpc_open[0].public_subnets[0] : module.vpc_closed[0].private_subnets[0]
   associate_public_ip_address = local.vpc_open
+  iam_role_name = "scout-badges-bastion"
+  iam_role_policies = {
+    AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+    CloudWatchAgentServerPolicy = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+    bastion-policy = "${aws_iam_policy.ec2_policy.arn}"
+  }
 
   tags = merge(var.common_tags, var.specific_tags)
 }
 
 resource "aws_iam_policy" "ec2_policy" {
-  name        = "bastion_policy"
+  name        = "bastion-policy"
   description = "Scout Badges bastion policy"
 
   # Terraform's "jsonencode" function converts a
@@ -55,6 +61,8 @@ resource "aws_iam_policy" "ec2_policy" {
       }
     ]
   })
+  tags = merge(var.common_tags, var.specific_tags)
+
 }
 
 # Create the security group without any rules
