@@ -212,6 +212,23 @@ resource "aws_kms_key_policy" "scout_badges" {
             "kms:ViaService" = "logs.eu-west-2.amazonaws.com"
           }
     }
+      },
+      {
+        Sid    = "AllowKeyUsage to users"
+        Effect = "Allow"
+        Principal = {
+          AWS = [
+            "arn:aws:iam::${local.account_id}:root"
+          ]
+        }
+        Action = [
+          "kms:Encrypt",
+          "kms:Decrypt",
+          "kms:ReEncrypt*",
+          "kms:GenerateDataKey*",
+          "kms:DescribeKey"
+        ]
+        Resource = "*"
       }
     ]
     Version = "2012-10-17"
