@@ -15,9 +15,11 @@ fnox set --config fnox.local.toml --description "Password for Postgres admin acc
 fnox set --config fnox.local.toml --description "Address of Postgres database server" --profile $MISE_ENV --provider age PGHOST
 fnox set --config fnox.local.toml --description "Port number of Postgres database server" --profile $MISE_ENV --provider age PGPORT
 fnox set --config fnox.local.toml --description "Database name" --profile $MISE_ENV --provider age PGDATABASE
+fnox set --config fnox.local.toml --description "Sqitch target" --profile $MISE_ENV --provider age SQITCH_TARGET
 echo $rds_admin | jq '.username' --raw-output | fnox set --config fnox.local.toml --profile $MISE_ENV --provider age PGUSER
 echo $rds_admin | jq '.password' --raw-output | fnox set --config fnox.local.toml --profile $MISE_ENV --provider age PGPASSWORD
 echo $rds_host | fnox set --config fnox.local.toml --profile $MISE_ENV --provider age PGHOST
 echo $rds_port | fnox set --config fnox.local.toml --profile $MISE_ENV --provider age PGPORT
 echo "postgresdev" | fnox set --config fnox.local.toml --profile $MISE_ENV --provider age PGDATABASE
+echo "db:pg://$rds_host:$rds_port/postgresdev" | fnox set --config fnox.local.toml --profile $MISE_ENV --provider age SQITCH_TARGET
 popd
