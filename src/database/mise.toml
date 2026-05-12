@@ -12,7 +12,7 @@ run = "./scripts/init-user-fnox.sh"
 
 [tasks.init]
 description = "Initialise database for testing"
-depends = ["init-user"]
+depends = ["//src/database:init-user"]
 run = "./scripts/init-pg.sh"
 
 [tasks.lint]

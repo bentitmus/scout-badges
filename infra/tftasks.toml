@@ -7,7 +7,7 @@ run = '''
 
 [plan]
 description = "Plan terraform deployment"
-depends = ["init"]
+depends = ["//infra:init"]
 usage = '''
 flag "-o --output <file>" help="Output plan file"
 '''
@@ -15,7 +15,7 @@ run = 'terraform plan -var-file="./vars/${MISE_ENV}/vars.tfvars" -var-file="./va
 
 [apply]
 description = "Apply terraform changes"
-depends = ["init"]
+depends = ["//infra:init"]
 usage = '''
 flag "-i --input <file>" help="Optional input plan file"
 '''
