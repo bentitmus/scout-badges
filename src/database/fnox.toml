@@ -1,2 +1,4 @@
 [secrets]
-SQITCH_TARGET= { provider = "plain", value = "db:pg://localhost:5432/postgres" }
+PGHOST= { provider = "plain", value = "localhost" }
+PGPORT= { provider = "plain", value = "5432" }
+PGDATABASE= { provider = "plain", value = "postgres" }

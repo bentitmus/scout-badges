@@ -3,7 +3,7 @@ perl = { version = "latest", postinstall = "cpanm -n App::Sqitch DBD::Pg" }
 pnpm = "latest"
 
 [env]
-_.source = "./scripts/sqitch-user.sh"
+_.source = "./scripts/sqitch.sh"
 
 [tasks.init-user]
 hide = true
