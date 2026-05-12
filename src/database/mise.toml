@@ -1,6 +1,7 @@
 [tools]
 perl = { version = "latest", postinstall = "cpanm -n App::Sqitch DBD::Pg" }
 pnpm = "latest"
+postgres = { version = "latest", postinstall = "./scripts/install-pgtap.sh" }
 
 [env]
 _.source = "./scripts/sqitch.sh"
