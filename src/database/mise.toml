@@ -1,7 +1,10 @@
 [tools]
 perl = { version = "latest", postinstall = "cpanm -n App::Sqitch DBD::Pg" }
 pnpm = "latest"
-postgres = { version = "latest", postinstall = "PATH=$MISE_TOOL_INSTALL_PATH/bin:$PATH ./scripts/install-pgtap.sh" }
+postgres = {
+  version     = "latest",
+  postinstall = "PATH=$MISE_TOOL_INSTALL_PATH/bin:$PATH $MISE_PROJECT_ROOT/scripts/install-pgtap.sh $MISE_TOOL_INSTALL_PATH/data"
+}
 
 [env]
 _.source = "./scripts/sqitch.sh"
