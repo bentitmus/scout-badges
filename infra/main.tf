@@ -28,6 +28,35 @@ module "ec2_instance" {
   tags = merge(var.common_tags, var.specific_tags)
 }
 
+resource "aws_iam_policy" "ec2_policy" {
+  name        = "bastion_policy"
+  description = "Scout Badges bastion policy"
+
+  # Terraform's "jsonencode" function converts a
+  # Terraform expression result to valid JSON syntax.
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [
+      {
+        Action = [
+          "secretsmanager:GetSecretValue"
+        ]
+        Effect   = "Allow"
+        Resource = "${data.aws_db_instance.postgres_data.master_user_secret[0].secret_arn}"
+      },
+      {
+        Action = [
+          "kms:DescribeKey",
+          "kms:GenerateDataKey",
+          "kms:Decrypt"
+        ]
+        Effect   = "Allow"
+        Resource = "${aws_kms_key.scout_badges.arn}"
+      }
+    ]
+  })
+}
+
 # Create the security group without any rules
 resource "aws_security_group" "database" {
   name_prefix = "postgres-sg-${var.environment}"
@@ -211,7 +240,7 @@ resource "aws_kms_key_policy" "scout_badges" {
           StringEquals = {
             "kms:ViaService" = [
               "logs.eu-west-2.amazonaws.com",
-              "ec2.eu-west-2.amazonaws.com"
+              #"ec2.eu-west-2.amazonaws.com"
               #"rds.eu-west-2.amazonaws.com",
               #"secretsmanager.eu-west-2.amazonaws.com"
             ]
