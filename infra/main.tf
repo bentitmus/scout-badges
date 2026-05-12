@@ -170,13 +170,25 @@ resource "aws_kms_key_policy" "scout_badges" {
         Effect = "Allow"
         Principal = {
           AWS = [
-            "arn:aws:iam::${local.account_id}:role/github_actions_oidc",
             "arn:aws:iam::${local.account_id}:root"
-            #"arn:aws:iam::${local.account_id}:*"
-            #"*"
           ]
         }
-        Action   = "kms:*"
+        Action   = [
+          "kms:CancelKeyDeletion",
+          "kms:CreateAlias",
+          "kms:Delete*",
+          "kms:Describe*",
+          "kms:Disable*",
+          "kms:Enable*",
+          "kms:Get*",
+          "kms:List*",
+          "kms:PutKeyPolicy",
+          "kms:Revoke*",
+          "kms:ScheduleKeyDeletion",
+          "kms:TagResource",
+          "kms:UntagResource",
+          "kms:Update*"
+        ]
         Resource = "*"
       },
       {
@@ -184,9 +196,7 @@ resource "aws_kms_key_policy" "scout_badges" {
         Effect = "Allow"
         Principal = {
           AWS = [
-            "arn:aws:logs:*"
-            #"arn:aws:iam::${local.acccount_id}:role/lambda-exec"
-            #"*"
+            "arn:aws:iam::${local.account_id}:root"
           ]
         }
         Action = [
@@ -197,6 +207,11 @@ resource "aws_kms_key_policy" "scout_badges" {
           "kms:DescribeKey"
         ]
         Resource = "*"
+        Condition = {
+          "StringEquals" = {
+            "kms:ViaService" = "logs.eu-west-2.amazonaws.com"
+          }
+    }
       }
     ]
     Version = "2012-10-17"
