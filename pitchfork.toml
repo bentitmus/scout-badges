@@ -1,0 +1,3 @@
+[daemons.database]
+run = "mise run //src/database:pg"
+ready_output = "database system is ready to accept connections"

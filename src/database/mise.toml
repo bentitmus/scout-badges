@@ -21,3 +21,9 @@ run = '''
 [tasks.lint]
 description = "Lint SQL migration scripts"
 run = "pnpm dlx squawk-cli deploy/* revert/* verify/*"
+
+[tasks.pg]
+description = "Start Postgres service"
+depends = ["//src/database:init"]
+hide = true
+run = "postgres -D pg"

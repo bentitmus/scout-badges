@@ -14,6 +14,7 @@ config_roots = [
 age = "latest"
 changie = "latest"
 fnox = "latest"
+pitchfork = "latest"
 
 [tasks.init]
 description = "Initialise environment for running"
