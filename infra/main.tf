@@ -210,7 +210,8 @@ resource "aws_kms_key_policy" "scout_badges" {
         Condition = {
           StringEquals = {
             "kms:ViaService" = [
-              "logs.eu-west-2.amazonaws.com"
+              "logs.eu-west-2.amazonaws.com",
+              "ec2.eu-west-2.amazonaws.com"
               #"rds.eu-west-2.amazonaws.com",
               #"secretsmanager.eu-west-2.amazonaws.com"
             ]
