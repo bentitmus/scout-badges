@@ -1,4 +1,4 @@
--- Verify scout-badges-bootstrap:app_schema on pg
+-- Verify scout-badges:app_schema on pg
 
 BEGIN;
 

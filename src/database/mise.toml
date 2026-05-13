@@ -1,6 +1,33 @@
 [tools]
 perl = { version = "latest", postinstall = "cpanm -n App::Sqitch DBD::Pg" }
 pnpm = "latest"
+postgres = {
+  version     = "latest",
+  postinstall = "PATH=$MISE_TOOL_INSTALL_PATH/bin:$PATH $MISE_PROJECT_ROOT/scripts/install-pgtap.sh $MISE_TOOL_INSTALL_PATH/data"
+}
 
 [env]
-_.source = "./sqitch-user.sh"
+_.source = "./scripts/sqitch.sh"
+
+[tasks.init]
+description = "Initialise database for testing"
+outputs = ["pg"]
+run = '''
+  fnox exec -- ./scripts/init-machine-pg.sh
+  ./scripts/init-user-fnox.sh
+  pg_ctl start -D pg > /dev/null
+  fnox exec -- ./scripts/init-pg.sh
+  fnox exec -- ./scripts/init-pg-debug.sh
+  pg_ctl stop -D pg > /dev/null
+'''
+
+[tasks.lint]
+description = "Lint SQL migration scripts"
+run = "pnpm dlx squawk-cli scripts/initdb.sql deploy/* revert/* verify/*"
+
+[tasks.pg]
+description = "Start Postgres service"
+depends = ["//src/database:init"]
+hide = true
+# `pitchfork` supplies the $PORT value
+run = "postgres -D pg -p $PORT"

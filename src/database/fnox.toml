@@ -1,0 +1,6 @@
+[secrets]
+PGUSER= { provider = "plain", value = "dbadmin", description = "Username of Postgres admin account" }
+PGHOST= { provider = "plain", value = "localhost", description = "Address of Postgres database server" }
+PGPORT= { provider = "plain", value = "3010", description = "Port number of Postgres database server" }
+PGDATABASE= { provider = "plain", value = "postgres", description = "Database name" }
+SQITCH_TARGET= { provider = "plain", value = "db:pg://localhost:3010/postgres", description = "Sqitch target" }

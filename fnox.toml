@@ -1,0 +1,6 @@
+[providers.age]
+type = "age"
+recipients = ["age1m2tdxamjsnlulsu2x5rjuwgzklkztjhlndfnz8rfz76asz53pdas3ys0z9"]
+
+[providers.plain]
+type = "plain"

@@ -1,0 +1,5 @@
+%syntax-version=1.0.0
+%project=scout-badges
+%uri=https://github.com/bentitmus/scout-badges
+
+app_schema 2026-05-12T21:16:17Z Benjamin Titmus <ben.titmus@cantab.net> # Add schema for application

@@ -1,0 +1,23 @@
+[init]
+description = "Initialise terraform"
+run = '''
+  terraform init -backend-config="./vars/${MISE_ENV}/backend.hcl"
+  ./init-vars.sh
+'''
+
+[plan]
+description = "Plan terraform deployment"
+depends = ["//infra:init"]
+usage = '''
+flag "-o --output <file>" help="Output plan file"
+'''
+run = 'terraform plan -var-file="./vars/${MISE_ENV}/vars.tfvars" -var-file="./vars/common.tfvars" ${usage_output:+-out=}${usage_output}'
+
+[apply]
+description = "Apply terraform changes"
+depends = ["//infra:init"]
+usage = '''
+flag "-i --input <file>" help="Optional input plan file"
+'''
+run = 'terraform apply -var-file="./vars/${MISE_ENV}/vars.tfvars" -var-file="./vars/common.tfvars" ${usage_input}'
+

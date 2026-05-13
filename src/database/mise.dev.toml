@@ -1,0 +1,7 @@
+[tasks.init]
+description = "Initialise database for testing"
+depends = ["//infra:init"]
+run = '''
+  fnox exec -- ./scripts/init-pg.sh
+  fnox exec -- ./scripts/init-pg-debug.sh
+'''
