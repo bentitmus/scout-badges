@@ -1,5 +1,5 @@
 locals {
-  vpc_open = var.environment == "dev" ? true : false
+  vpc_open   = var.environment == "dev" ? true : false
   account_id = data.aws_caller_identity.current.account_id
 }
 
@@ -24,11 +24,11 @@ module "ec2_instance" {
   instance_type               = "t3.micro"
   subnet_id                   = local.vpc_open ? module.vpc_open[0].public_subnets[0] : module.vpc_closed[0].private_subnets[0]
   associate_public_ip_address = local.vpc_open
-  iam_role_name = "scout-badges-bastion"
+  iam_role_name               = "scout-badges-bastion"
   iam_role_policies = {
     AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
-    CloudWatchAgentServerPolicy = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
-    bastion-policy = aws_iam_policy.ec2_policy.arn
+    CloudWatchAgentServerPolicy  = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
+    bastion-policy               = aws_iam_policy.ec2_policy.arn
   }
 
   tags = merge(var.common_tags, var.specific_tags)
@@ -115,10 +115,10 @@ module "db" {
   major_engine_version     = "17"         # DB option group
   instance_class           = "db.t3.micro"
   publicly_accessible      = true
-  allocated_storage = 10
+  allocated_storage        = 10
 
-  kms_key_id = aws_kms_key.scout_badges.arn
-  master_user_secret_kms_key_id = aws_kms_key.scout_badges.arn
+  kms_key_id                      = aws_kms_key.scout_badges.arn
+  master_user_secret_kms_key_id   = aws_kms_key.scout_badges.arn
   cloudwatch_log_group_kms_key_id = aws_kms_key.scout_badges.arn
 
   # NOTE: Do NOT use 'user' as the value for 'username' as it throws:
@@ -210,7 +210,7 @@ resource "aws_kms_key_policy" "scout_badges" {
             "arn:aws:iam::${local.account_id}:root"
           ]
         }
-        Action   = [
+        Action = [
           "kms:CancelKeyDeletion",
           "kms:CreateAlias",
           "kms:Delete*",
@@ -253,7 +253,7 @@ resource "aws_kms_key_policy" "scout_badges" {
               #"secretsmanager.eu-west-2.amazonaws.com"
             ]
           }
-    }
+        }
       },
       {
         Sid    = "AllowKeyUsage to users"
