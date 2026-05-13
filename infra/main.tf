@@ -28,7 +28,7 @@ module "ec2_instance" {
   iam_role_policies = {
     AmazonSSMManagedInstanceCore = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
     CloudWatchAgentServerPolicy = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
-    bastion-policy = "${aws_iam_policy.ec2_policy.arn}"
+    bastion-policy = aws_iam_policy.ec2_policy.arn
   }
 
   tags = merge(var.common_tags, var.specific_tags)
@@ -48,7 +48,7 @@ resource "aws_iam_policy" "ec2_policy" {
           "secretsmanager:GetSecretValue"
         ]
         Effect   = "Allow"
-        Resource = "${data.aws_db_instance.postgres_data.master_user_secret[0].secret_arn}"
+        Resource = data.aws_db_instance.postgres_data.master_user_secret[0].secret_arn
       },
       {
         Action = [
@@ -57,7 +57,7 @@ resource "aws_iam_policy" "ec2_policy" {
           "kms:Decrypt"
         ]
         Effect   = "Allow"
-        Resource = "${aws_kms_key.scout_badges.arn}"
+        Resource = aws_kms_key.scout_badges.arn
       }
     ]
   })
