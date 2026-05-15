@@ -37,11 +37,8 @@ module "ec2_instance" {
     type                  = "gp3"
     throughput            = 200
     size                  = 30
-    tags = {
-      Name = "scout-badges-block"
-    }
   }
-  
+
   depends_on = [
     aws_kms_key.scout_badges, aws_kms_key_policy.scout_badges, aws_kms_alias.scout_badges
   ]
