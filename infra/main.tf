@@ -30,6 +30,21 @@ module "ec2_instance" {
     CloudWatchAgentServerPolicy  = "arn:aws:iam::aws:policy/CloudWatchAgentServerPolicy"
     bastion-policy               = aws_iam_policy.ec2_policy.arn
   }
+  root_block_device = {
+    delete_on_termination = true
+    encrypted             = true
+    kms_key_id            = aws_kms_key.scout_badges.id
+    type                  = "gp3"
+    throughput            = 200
+    size                  = 30
+    tags = {
+      Name = "scout-badges-block"
+    }
+  }
+  
+  depends_on = [
+    aws_kms_key.scout_badges, aws_kms_key_policy.scout_badges, aws_kms_alias.scout_badges
+  ]
 
   tags = merge(var.common_tags, var.specific_tags)
 }
