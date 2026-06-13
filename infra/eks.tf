@@ -17,9 +17,8 @@ module "eks" {
     node_pools = ["general-purpose"]
   }
 
-  # TODO: Specify only the Private subnet_ids for vpc_closed
   vpc_id     = local.vpc_open ? module.vpc_open[0].vpc_id : module.vpc_closed[0].vpc_id
-  subnet_ids = local.vpc_open ? module.vpc_open[0].subnet_ids : module.vpc_closed[0].subnet_ids
+  subnet_ids = local.vpc_open ? module.vpc_open[0].public_subnets : module.vpc_closed[0].private_subnets
 
   tags = {
     Environment = "dev"
