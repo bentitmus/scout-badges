@@ -34,6 +34,7 @@ module "vpc_open" {
   #}
 }
 
+# TODO: alter cidr range for vpc_closed
 module "vpc_closed" {
   source  = "terraform-aws-modules/vpc/aws"
   version = "6.6.1"
