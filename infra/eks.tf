@@ -18,7 +18,7 @@ module "eks" {
   }
 
   # TODO: Specify only the Private subnet_ids for vpc_closed
-  vpc_id     = local.vpc_open ? module.vpc_open.vpc_id[0] : module.vpc_closed.vpc_id[0]
+  vpc_id     = local.vpc_open ? module.vpc_open[0].vpc_id : module.vpc_closed[0].vpc_id
   subnet_ids = local.vpc_open ? module.vpc_open.subnet_ids : module.vpc_closed.subnet_ids
 
   tags = {
