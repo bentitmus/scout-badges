@@ -10,11 +10,19 @@ module "eks" {
   endpoint_private_access = true
 
   # Optional: Adds the current caller identity as an administrator via cluster access entry
-  # enable_cluster_creator_admin_permissions = true
+  enable_cluster_creator_admin_permissions = true
 
-  compute_config = {
-    enabled    = true
-    node_pools = ["general-purpose"]
+  # EKS Managed Node Group(s)
+  eks_managed_node_groups = {
+    example = {
+      # Starting on 1.30, AL2023 is the default AMI type for EKS managed node groups
+      ami_type       = "AL2023_x86_64_STANDARD"
+      instance_types = ["t3.medium"]
+
+      min_size     = 2
+      max_size     = 4
+      desired_size = 2
+    }
   }
 
   vpc_id     = local.vpc_open ? module.vpc_open[0].vpc_id : module.vpc_closed[0].vpc_id
