@@ -25,6 +25,9 @@ module "vpc_open" {
   enable_dns_hostnames = true
   enable_dns_support   = true
 
+# Required for EKS managed node group deployed to public subnet.  https://docs.aws.amazon.com/eks/latest/userguide/managed-node-groups.html
+  map_public_ip_on_launch = true
+
   #public_subnet_tags = {
   #  "kubernetes.io/role/elb" = 1
   #}
